@@ -25,13 +25,13 @@ if __name__ == "__main__":
             try:
                 with open(cur_file_path, "rb") as cur_file:
                     checksum = zlib.crc32(cur_file.read())
-                if checksum not in file_hash_table:
-                    file_hash_table[checksum] = cur_file_path
-                else:
+                if checksum in file_hash_table:
                     dir_duplicate_count = dir_duplicate_count + 1
                     print('{}:{} and {} are duplicates!'.format(duplicate_count,
                         cur_file_path, file_hash_table[checksum]))
                     duplicated_bytes = duplicated_bytes + os.path.getsize(cur_file_path)
+                else:
+                    file_hash_table[checksum] = cur_file_path
             except:
                 print("Error opening {}".format(cur_file_path))
         duplicate_count = duplicate_count + dir_duplicate_count
